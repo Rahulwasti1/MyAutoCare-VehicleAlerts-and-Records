@@ -1,3 +1,4 @@
+import 'package:automobile_datamanagement/User_Screen/home.dart';
 import 'package:automobile_datamanagement/login_signup/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -48,12 +49,17 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.all(30.w), // Use .w for width scaling
                 child: Column(
                   children: [
-                    customTextField(hintText: "Email", icon: Icons.person),
+                    customTextField(hintText: "Email", icon: Icons.email),
                     SizedBox(height: 13.h),
                     customTextField(hintText: "Password", icon: Icons.lock),
                     SizedBox(height: 20.h),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UserHome()));
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF007dff),
                             minimumSize: Size(350.w, 45.h),

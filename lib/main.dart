@@ -1,5 +1,4 @@
-import 'package:automobile_datamanagement/login_signup/login.dart';
-import 'package:automobile_datamanagement/login_signup/signup.dart';
+import 'package:automobile_datamanagement/User_Screen/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,6 +18,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
+          color: Colors.white,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: LoginPage(),
+      child: UserProfile(),
     );
   }
 }
