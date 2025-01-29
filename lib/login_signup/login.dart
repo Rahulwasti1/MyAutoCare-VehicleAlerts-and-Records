@@ -1,3 +1,4 @@
+import 'package:automobile_datamanagement/login_signup/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -30,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 80.h),
+              SizedBox(height: 50.h),
               Center(
                 child: Image.asset(
                   "assets/images/login.png",
@@ -66,6 +67,25 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Don't have an account?"),
+                    SizedBox(width: 5.w),
+                    InkWell(
+                      child: Text("Sign up",
+                          style: TextStyle(color: Colors.blueAccent)),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignupPage()));
+                      },
+                    )
+                  ],
+                ),
+              )
             ],
           ),
         ));
