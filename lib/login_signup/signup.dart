@@ -10,6 +10,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  // Making variable to store the controller values
   String? name, email, password;
 
   TextEditingController nameController = TextEditingController();
@@ -47,7 +48,7 @@ class _SignupPageState extends State<SignupPage> {
                       TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold)),
               Text("Create an account", style: TextStyle(fontSize: 14.sp)),
               Padding(
-                padding: EdgeInsets.all(30.w), 
+                padding: EdgeInsets.all(30.w),
                 child: Column(
                   children: [
                     customTextField(
