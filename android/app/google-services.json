@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "635746660131",
+    "project_id": "datamanagement-9a186",
+    "storage_bucket": "datamanagement-9a186.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635746660131:android:e7de62beb871760c382696",
+        "android_client_info": {
+          "package_name": "com.example.automobile_datamanagement"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChXJAmYhcgJeqQLHubBIjwVwHwETG3bUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
