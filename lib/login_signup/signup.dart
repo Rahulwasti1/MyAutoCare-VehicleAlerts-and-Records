@@ -1,4 +1,6 @@
+import 'package:automobile_datamanagement/User_Screen/home.dart';
 import 'package:automobile_datamanagement/login_signup/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,11 +22,49 @@ class _SignupPageState extends State<SignupPage> {
   // It allows you to validate all the form fields at once
   final _formkey = GlobalKey<FormState>();
 
+  registration() async {
+    if (name == null && email == null && password == null) {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email!, password: password!);
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.green,
+            content: Text(
+              "Registered Successfully",
+              style: TextStyle(fontSize: 20),
+            )));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => UserHome()));
+      } on FirebaseException catch (e) {
+        if (e.code == 'weak-password') {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.red,
+              content: Text("Passowrd Provided is too weak",
+                  style: TextStyle(fontSize: 20))));
+        } else if (e.code == 'email-already-in-use') {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.red,
+              content: Text("Account Already Exists",
+                  style: TextStyle(fontSize: 20))));
+        }
+      }
+    }
+  }
+
   Widget customTextField(
       {required String hintText,
       required IconData icon,
-      required TextEditingController mycontroller}) {
+      required TextEditingController mycontroller,
+      required String name}) {
     return TextFormField(
+      // After adding GlobalKey
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Please Enter your $name";
+        }
+        return null;
+      },
       controller: mycontroller,
       decoration: InputDecoration(
           prefixIcon: Icon(icon),
@@ -59,20 +99,32 @@ class _SignupPageState extends State<SignupPage> {
                       customTextField(
                           hintText: "Username",
                           icon: Icons.person,
-                          mycontroller: nameController),
+                          mycontroller: nameController,
+                          name: "Username"),
                       SizedBox(height: 13.h),
                       customTextField(
                           hintText: "Email",
                           icon: Icons.email,
-                          mycontroller: emailController),
+                          mycontroller: emailController,
+                          name: "Email"),
                       SizedBox(height: 13.h),
                       customTextField(
                           hintText: "Password",
                           icon: Icons.lock,
-                          mycontroller: passwordController),
+                          mycontroller: passwordController,
+                          name: "Password"),
                       SizedBox(height: 20.h),
                       ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (_formkey.currentState!.validate()) {
+                              setState(() {
+                                name = nameController.text.trim();
+                                email = emailController.text.trim();
+                                password = passwordController.text;
+                              });
+                              registration();
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF007dff),
                               minimumSize: Size(350.w, 45.h),
