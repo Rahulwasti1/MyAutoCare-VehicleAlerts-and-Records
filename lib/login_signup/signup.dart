@@ -10,8 +10,18 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  Widget customTextField({required String hintText, required IconData icon}) {
+  String? name, email, password;
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  Widget customTextField(
+      {required String hintText,
+      required IconData icon,
+      required TextEditingController mycontroller}) {
     return TextField(
+      controller: mycontroller,
       decoration: InputDecoration(
           prefixIcon: Icon(icon),
           hintText: hintText,
@@ -37,14 +47,23 @@ class _SignupPageState extends State<SignupPage> {
                       TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold)),
               Text("Create an account", style: TextStyle(fontSize: 14.sp)),
               Padding(
-                padding: EdgeInsets.all(30.w), // Use .w for width scaling
+                padding: EdgeInsets.all(30.w), 
                 child: Column(
                   children: [
-                    customTextField(hintText: "Username", icon: Icons.person),
+                    customTextField(
+                        hintText: "Username",
+                        icon: Icons.person,
+                        mycontroller: nameController),
                     SizedBox(height: 13.h),
-                    customTextField(hintText: "Email", icon: Icons.email),
+                    customTextField(
+                        hintText: "Email",
+                        icon: Icons.email,
+                        mycontroller: emailController),
                     SizedBox(height: 13.h),
-                    customTextField(hintText: "Password", icon: Icons.lock),
+                    customTextField(
+                        hintText: "Password",
+                        icon: Icons.lock,
+                        mycontroller: passwordController),
                     SizedBox(height: 20.h),
                     ElevatedButton(
                         onPressed: () {},

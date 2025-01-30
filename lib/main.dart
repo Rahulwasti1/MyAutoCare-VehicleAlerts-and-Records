@@ -1,4 +1,4 @@
-import 'package:automobile_datamanagement/User_Screen/profile.dart';
+import 'package:automobile_datamanagement/login_signup/signup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +29,8 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: UserProfile(),
+      child: SignupPage(),
     );
   }
 }
+
