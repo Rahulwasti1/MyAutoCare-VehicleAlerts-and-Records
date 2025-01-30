@@ -17,11 +17,14 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  // It allows you to validate all the form fields at once
+  final _formkey = GlobalKey<FormState>();
+
   Widget customTextField(
       {required String hintText,
       required IconData icon,
       required TextEditingController mycontroller}) {
-    return TextField(
+    return TextFormField(
       controller: mycontroller,
       decoration: InputDecoration(
           prefixIcon: Icon(icon),
@@ -49,36 +52,39 @@ class _SignupPageState extends State<SignupPage> {
               Text("Create an account", style: TextStyle(fontSize: 14.sp)),
               Padding(
                 padding: EdgeInsets.all(30.w),
-                child: Column(
-                  children: [
-                    customTextField(
-                        hintText: "Username",
-                        icon: Icons.person,
-                        mycontroller: nameController),
-                    SizedBox(height: 13.h),
-                    customTextField(
-                        hintText: "Email",
-                        icon: Icons.email,
-                        mycontroller: emailController),
-                    SizedBox(height: 13.h),
-                    customTextField(
-                        hintText: "Password",
-                        icon: Icons.lock,
-                        mycontroller: passwordController),
-                    SizedBox(height: 20.h),
-                    ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF007dff),
-                            minimumSize: Size(350.w, 45.h),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.w))),
-                        child: Text(
-                          "REGISTER",
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 15.sp),
-                        )),
-                  ],
+                child: Form(
+                  key: _formkey,
+                  child: Column(
+                    children: [
+                      customTextField(
+                          hintText: "Username",
+                          icon: Icons.person,
+                          mycontroller: nameController),
+                      SizedBox(height: 13.h),
+                      customTextField(
+                          hintText: "Email",
+                          icon: Icons.email,
+                          mycontroller: emailController),
+                      SizedBox(height: 13.h),
+                      customTextField(
+                          hintText: "Password",
+                          icon: Icons.lock,
+                          mycontroller: passwordController),
+                      SizedBox(height: 20.h),
+                      ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF007dff),
+                              minimumSize: Size(350.w, 45.h),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.w))),
+                          child: Text(
+                            "REGISTER",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 15.sp),
+                          )),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 5.h),
