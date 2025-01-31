@@ -1,5 +1,5 @@
-import 'package:automobile_datamanagement/User_Screen/home.dart';
 import 'package:automobile_datamanagement/login_signup/login.dart';
+import 'package:automobile_datamanagement/navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,7 +51,7 @@ class _SignupPageState extends State<SignupPage> {
 
       // Navigate to UserHome page
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => UserHome()));
+          context, MaterialPageRoute(builder: (context) => userNavBar()));
     } on FirebaseAuthException catch (e) {
       print("Firebase Auth Error: ${e.message}");
       if (e.code == 'weak-password') {

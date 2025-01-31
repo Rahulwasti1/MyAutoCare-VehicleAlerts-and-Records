@@ -1,46 +1,45 @@
 import 'package:flutter/material.dart';
 
-class UserHome extends StatefulWidget {
-  const UserHome({super.key});
+// Vehicle class to store the data
+class UserHome extends StatelessWidget {
+  // Required named parameters for vehicle details
+  final String vehicleNumber;
+  final String vehicleName;
+  final String vehicleModel;
+  final String vehicleRegno;
+  final String vehicleTaxExpiry;
+  final String vehicleLicenseExpiry;
+  final String vehicleMaintenanceSchedule;
 
-  @override
-  State<UserHome> createState() => _UserHomeState();
-}
+  // Constructor to accept the data
+  const UserHome({
+    super.key,
+    required this.vehicleNumber,
+    required this.vehicleName,
+    required this.vehicleModel,
+    required this.vehicleRegno,
+    required this.vehicleTaxExpiry,
+    required this.vehicleLicenseExpiry,
+    required this.vehicleMaintenanceSchedule,
+  });
 
-class _UserHomeState extends State<UserHome> {
-   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 13),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Image.asset(
-                    "assets/images/profile.png",
-                    height: 60,
-                    width: 60,
-                  ),
-                  Text(
-                    "Welcome Back! 👋",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  )
-                ],
-              ),
-              SizedBox(height: 13),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text(
-                  "Vehicles",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                ),
-              )
-            ],
-          ),
+      appBar: AppBar(title: Text("User Home")),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Vehicle Number: $vehicleNumber"),
+            Text("Vehicle Name: $vehicleName"),
+            Text("Vehicle Model: $vehicleModel"),
+            Text("Registration Number: $vehicleRegno"),
+            Text("Tax Expiry Date: $vehicleTaxExpiry"),
+            Text("License Expiry Date: $vehicleLicenseExpiry"),
+            Text("Maintenance Schedule: $vehicleMaintenanceSchedule"),
+          ],
         ),
       ),
     );

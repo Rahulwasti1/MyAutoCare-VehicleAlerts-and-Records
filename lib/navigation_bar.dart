@@ -14,7 +14,15 @@ class _userNavBarState extends State<userNavBar> {
   int currentIndex = 0;
   // Creating list of screens
   List screens = [
-    UserHome(),
+    UserHome(
+      vehicleNumber: '12',
+      vehicleLicenseExpiry: '12',
+      vehicleMaintenanceSchedule: '123',
+      vehicleModel: '123',
+      vehicleName: 'qwe',
+      vehicleRegno: '123',
+      vehicleTaxExpiry: 'ad',
+    ),
     UserVehicles(),
     UserProfile(),
   ];

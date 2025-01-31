@@ -1,5 +1,5 @@
-import 'package:automobile_datamanagement/User_Screen/home.dart';
 import 'package:automobile_datamanagement/login_signup/signup.dart';
+import 'package:automobile_datamanagement/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => UserHome()));
+                                  builder: (context) => userNavBar()));
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF007dff),
