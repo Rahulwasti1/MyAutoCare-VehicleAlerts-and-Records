@@ -12,53 +12,71 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  // Making variable to store the controller values
   String? name, email, password;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  // It allows you to validate all the form fields at once
   final _formkey = GlobalKey<FormState>();
 
-  registration() async {
-    if (name == null && email == null && password == null) {
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email!, password: password!);
+  /// 📌 Helper function to show Snackbar messages
+  void showSnackbar(String message, {Color color = Colors.red}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: color,
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 18),
+        ),
+      ),
+    );
+  }
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.green,
-            content: Text(
-              "Registered Successfully",
-              style: TextStyle(fontSize: 20),
-            )));
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => UserHome()));
-      } on FirebaseException catch (e) {
-        if (e.code == 'weak-password') {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              backgroundColor: Colors.red,
-              content: Text("Passowrd Provided is too weak",
-                  style: TextStyle(fontSize: 20))));
-        } else if (e.code == 'email-already-in-use') {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              backgroundColor: Colors.red,
-              content: Text("Account Already Exists",
-                  style: TextStyle(fontSize: 20))));
-        }
+  /// 📌 Firebase Registration Function
+  registration() async {
+    if (name == null || email == null || password == null) {
+      showSnackbar("Please fill in all fields");
+      return;
+    }
+
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email!, password: password!);
+
+      print("User registered: ${userCredential.user?.uid}");
+
+      // Show success message
+      showSnackbar("Registered Successfully", color: Colors.green);
+
+      // Navigate to UserHome page
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => UserHome()));
+    } on FirebaseAuthException catch (e) {
+      print("Firebase Auth Error: ${e.message}");
+      if (e.code == 'weak-password') {
+        showSnackbar("Password is too weak");
+      } else if (e.code == 'email-already-in-use') {
+        showSnackbar("Account already exists");
+      } else if (e.code == 'invalid-email') {
+        showSnackbar("Invalid email format");
+      } else {
+        showSnackbar("Error: ${e.message}");
       }
+    } catch (e) {
+      print("General error: $e");
+      showSnackbar("Something went wrong, please try again");
     }
   }
 
-  Widget customTextField(
-      {required String hintText,
-      required IconData icon,
-      required TextEditingController mycontroller,
-      required String name}) {
+  /// 📌 Custom Text Field Widget
+  Widget customTextField({
+    required String hintText,
+    required IconData icon,
+    required TextEditingController mycontroller,
+    required String name,
+  }) {
     return TextFormField(
-      // After adding GlobalKey
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Please Enter your $name";
@@ -67,14 +85,16 @@ class _SignupPageState extends State<SignupPage> {
       },
       controller: mycontroller,
       decoration: InputDecoration(
-          prefixIcon: Icon(icon),
-          hintText: hintText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.w),
-          ),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.w),
-              borderSide: BorderSide(color: Colors.blue))),
+        prefixIcon: Icon(icon),
+        hintText: hintText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30.w),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30.w),
+          borderSide: BorderSide(color: Colors.blue),
+        ),
+      ),
     );
   }
 
@@ -112,7 +132,7 @@ class _SignupPageState extends State<SignupPage> {
                           hintText: "Password",
                           icon: Icons.lock,
                           mycontroller: passwordController,
-                          name: "Password"),
+                          name: "Password"), // Secure password input
                       SizedBox(height: 20.h),
                       ElevatedButton(
                           onPressed: () {

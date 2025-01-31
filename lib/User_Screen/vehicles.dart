@@ -1,4 +1,4 @@
-import 'package:automobile_datamanagement/User_Screen/home.dart';
+import 'package:automobile_datamanagement/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -35,7 +35,7 @@ class _UserVehiclesState extends State<UserVehicles> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => UserHome()));
+                                builder: (context) => userNavBar()));
                       },
                       icon: Icon(Icons.arrow_back)),
                 ),

@@ -1,5 +1,5 @@
-import 'package:automobile_datamanagement/User_Screen/home.dart';
 import 'package:automobile_datamanagement/login_signup/login.dart';
+import 'package:automobile_datamanagement/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -32,7 +32,7 @@ class _UserProfileState extends State<UserProfile> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => UserHome()));
+                                    builder: (context) => userNavBar()));
                           },
                           icon: Icon(
                             Icons.arrow_back,

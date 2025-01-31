@@ -1,23 +1,69 @@
-import 'package:automobile_datamanagement/User_Screen/alerts.dart';
 import 'package:automobile_datamanagement/User_Screen/home.dart';
 import 'package:automobile_datamanagement/User_Screen/profile.dart';
 import 'package:automobile_datamanagement/User_Screen/vehicles.dart';
 import 'package:flutter/material.dart';
 
-class NavigationBar extends StatefulWidget {
-  const NavigationBar({super.key});
+class userNavBar extends StatefulWidget {
+  const userNavBar({super.key});
 
   @override
-  State<NavigationBar> createState() => _NavigationBarState();
+  State<userNavBar> createState() => _userNavBarState();
 }
 
-class _NavigationBarState extends State<NavigationBar> {
+class _userNavBarState extends State<userNavBar> {
   int currentIndex = 0;
-
-  List screens = [UserHome(), UserVehicles(), UserAlert(), UserProfile()];
+  // Creating list of screens
+  List screens = [
+    UserHome(),
+    UserVehicles(),
+    UserProfile(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    currentIndex = 0;
+                  });
+                },
+                icon: Icon(
+                  Icons.home,
+                  size: 30,
+                  color: currentIndex == 0 ? Color(0xFF029BFA) : Colors.grey,
+                )),
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    currentIndex = 1;
+                  });
+                },
+                icon: Icon(
+                  Icons.directions_car,
+                  size: 30,
+                  color: currentIndex == 1 ? Color(0xFF029BFA) : Colors.grey,
+                )),
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    currentIndex = 2;
+                  });
+                },
+                icon: Icon(
+                  Icons.person,
+                  size: 30,
+                  color: currentIndex == 2 ? Color(0xFF029BFA) : Colors.grey,
+                )),
+          ],
+        ),
+      ),
+      body: screens[currentIndex],
+    );
   }
 }
