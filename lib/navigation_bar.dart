@@ -15,14 +15,14 @@ class _userNavBarState extends State<userNavBar> {
   // Creating list of screens
   List screens = [
     UserHome(
-      vehicleNumber: '12',
-      vehicleLicenseExpiry: '12',
-      vehicleMaintenanceSchedule: '123',
-      vehicleModel: '123',
-      vehicleName: 'qwe',
-      vehicleRegno: '123',
-      vehicleTaxExpiry: 'ad',
-    ),
+        vehicleNumber: '12',
+        vehicleLicenseExpiry: '12',
+        vehicleMaintenanceSchedule: '123',
+        vehicleModel: '123',
+        vehicleName: 'qwe',
+        vehicleRegno: '123',
+        vehicleTaxExpiry: 'ad',
+        ),
     UserVehicles(),
     UserProfile(),
   ];

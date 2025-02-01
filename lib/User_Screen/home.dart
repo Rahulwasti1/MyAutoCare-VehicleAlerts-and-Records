@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-// Vehicle class to store the data
-class UserHome extends StatelessWidget {
-  // Required named parameters for vehicle details
+class UserHome extends StatefulWidget {
   final String vehicleNumber;
   final String vehicleName;
   final String vehicleModel;
@@ -11,7 +9,6 @@ class UserHome extends StatelessWidget {
   final String vehicleLicenseExpiry;
   final String vehicleMaintenanceSchedule;
 
-  // Constructor to accept the data
   const UserHome({
     super.key,
     required this.vehicleNumber,
@@ -24,21 +21,74 @@ class UserHome extends StatelessWidget {
   });
 
   @override
+  State<UserHome> createState() => _UserHomeState();
+}
+
+class _UserHomeState extends State<UserHome> {
+  bool _isExpanded = false;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("User Home")),
+      appBar: AppBar(
+        title: const Text("User Home"),
+        backgroundColor: Colors.blueAccent,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("Vehicle Number: $vehicleNumber"),
-            Text("Vehicle Name: $vehicleName"),
-            Text("Vehicle Model: $vehicleModel"),
-            Text("Registration Number: $vehicleRegno"),
-            Text("Tax Expiry Date: $vehicleTaxExpiry"),
-            Text("License Expiry Date: $vehicleLicenseExpiry"),
-            Text("Maintenance Schedule: $vehicleMaintenanceSchedule"),
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "${widget.vehicleName} (${widget.vehicleModel})",
+                      style: const TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      "Vehicle Number: ${widget.vehicleNumber}",
+                      style: const TextStyle(fontSize: 16, color: Colors.black54),
+                    ),
+                    const SizedBox(height: 10),
+                    ExpansionTile(
+                      title: const Text("View Vehicle Details"),
+                      trailing: Icon(_isExpanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down),
+                      onExpansionChanged: (expanded) {
+                        setState(() {
+                          _isExpanded = expanded;
+                        });
+                      },
+                      children: [
+                        ListTile(
+                          title: Text("Registration Number: ${widget.vehicleRegno}"),
+                        ),
+                        ListTile(
+                          title: Text("Tax Expiry Date: ${widget.vehicleTaxExpiry}"),
+                        ),
+                        ListTile(
+                          title: Text("License Expiry Date: ${widget.vehicleLicenseExpiry}"),
+                        ),
+                        ListTile(
+                          title: Text("Maintenance Schedule: ${widget.vehicleMaintenanceSchedule}"),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

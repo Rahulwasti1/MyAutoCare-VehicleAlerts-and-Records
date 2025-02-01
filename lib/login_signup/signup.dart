@@ -1,6 +1,8 @@
 import 'package:automobile_datamanagement/login_signup/login.dart';
 import 'package:automobile_datamanagement/navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -46,6 +48,9 @@ class _SignupPageState extends State<SignupPage> {
 
       print("User registered: ${userCredential.user?.uid}");
 
+      // 🔹 Save user details & FCM token in Firestore
+      await saveUserData(email!, name!);
+
       // Show success message
       showSnackbar("Registered Successfully", color: Colors.green);
 
@@ -66,6 +71,23 @@ class _SignupPageState extends State<SignupPage> {
     } catch (e) {
       print("General error: $e");
       showSnackbar("Something went wrong, please try again");
+    }
+  }
+
+  /// 📌 Store User Data & FCM Token in Firestore
+  Future<void> saveUserData(String userEmail, String userName) async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    
+    if (token != null) {
+      await FirebaseFirestore.instance.collection("users").doc(userEmail).set({
+        "name": userName,
+        "email": userEmail,
+        "fcm_token": token, // Store FCM Token
+      }, SetOptions(merge: true));
+
+      print("User & FCM Token saved: $userEmail, Token: $token");
+    } else {
+      print("Failed to get FCM Token");
     }
   }
 

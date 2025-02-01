@@ -1,4 +1,5 @@
 import 'package:automobile_datamanagement/navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -178,42 +179,57 @@ class _UserVehiclesState extends State<UserVehicles> {
                       ),
                       SizedBox(height: 25),
                       ElevatedButton(
-                        onPressed: () {
+                        // Inside the ElevatedButton onPressed function
+                        onPressed: () async {
                           if (_formKey.currentState?.validate() ?? false) {
-                            // If the form is valid, proceed with the database operation
                             try {
-                              // Add data to Realtime Database
-                              databaseReference
-                                  .child(DateTime.now()
-                                      .microsecondsSinceEpoch
-                                      .toString())
-                                  .set({
-                                'vehicleNumber': vehicleNumberController.text,
-                                'vehicleName': vehicleNameController.text,
-                                'vehicleModel': vehicleModelController.text,
-                                'vehicleRegno': vehicleRegnoController.text,
-                                'vehicleTaxExpiry':
-                                    vehicleTexExpiryController.text,
-                                'vehicleLicenseExpiry':
-                                    vehicleLicenseController.text,
-                                'vehicleMaintenanceSchedule':
-                                    vehicleMaintenanceController.text,
-                              });
+                              // Get current user
+                              User? user = FirebaseAuth.instance.currentUser;
 
-                              // After successful data addition, navigate to UserHome with data
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => userNavBar(),
-                                ),
-                              );
+                              if (user != null) {
+                                String userEmail = user.email ?? "Unknown";
 
-                              // Provide feedback after successful addition
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content:
-                                        Text("Vehicle Added Successfully!")),
-                              );
+                                // Add data to Realtime Database with email
+                                databaseReference
+                                    .child(DateTime.now()
+                                        .microsecondsSinceEpoch
+                                        .toString())
+                                    .set({
+                                  'userEmail':
+                                      userEmail, // Store the email in the database
+                                  'vehicleNumber': vehicleNumberController.text,
+                                  'vehicleName': vehicleNameController.text,
+                                  'vehicleModel': vehicleModelController.text,
+                                  'vehicleRegno': vehicleRegnoController.text,
+                                  'vehicleTaxExpiry':
+                                      vehicleTexExpiryController.text,
+                                  'vehicleLicenseExpiry':
+                                      vehicleLicenseController.text,
+                                  'vehicleMaintenanceSchedule':
+                                      vehicleMaintenanceController.text,
+                                });
+
+                                // Navigate to UserHome after successful addition
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => userNavBar(),
+                                  ),
+                                );
+
+                                // Provide success feedback
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text("Vehicle Added Successfully!")),
+                                );
+                              } else {
+                                // Handle case when user is not logged in
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text("User not logged in!")),
+                                );
+                              }
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -228,7 +244,58 @@ class _UserVehiclesState extends State<UserVehicles> {
                                       "Please fill all the required fields")),
                             );
                           }
-                        },
+                        }
+                        // onPressed: () {
+                        //   if (_formKey.currentState?.validate() ?? false) {
+                        //     // If the form is valid, proceed with the database operation
+                        //     try {
+                        //       // Add data to Realtime Database
+                        //       databaseReference
+                        //           .child(DateTime.now()
+                        //               .microsecondsSinceEpoch
+                        //               .toString())
+                        //           .set({
+                        //         'vehicleNumber': vehicleNumberController.text,
+                        //         'vehicleName': vehicleNameController.text,
+                        //         'vehicleModel': vehicleModelController.text,
+                        //         'vehicleRegno': vehicleRegnoController.text,
+                        //         'vehicleTaxExpiry':
+                        //             vehicleTexExpiryController.text,
+                        //         'vehicleLicenseExpiry':
+                        //             vehicleLicenseController.text,
+                        //         'vehicleMaintenanceSchedule':
+                        //             vehicleMaintenanceController.text,
+                        //       });
+
+                        //       // After successful data addition, navigate to UserHome with data
+                        //       Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //           builder: (context) => userNavBar(),
+                        //         ),
+                        //       );
+
+                        //       // Provide feedback after successful addition
+                        //       ScaffoldMessenger.of(context).showSnackBar(
+                        //         SnackBar(
+                        //             content:
+                        //                 Text("Vehicle Added Successfully!")),
+                        //       );
+                        //     } catch (e) {
+                        //       ScaffoldMessenger.of(context).showSnackBar(
+                        //         SnackBar(
+                        //             content: Text("Failed to add vehicle: $e")),
+                        //       );
+                        //     }
+                        //   } else {
+                        //     // If the form is invalid, show an error
+                        //     ScaffoldMessenger.of(context).showSnackBar(
+                        //       SnackBar(
+                        //           content: Text(
+                        //               "Please fill all the required fields")),
+                        //     );
+                        //   }
+                        ,
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(330.w, 45.h),
                           backgroundColor: const Color(0xFF007dff),
